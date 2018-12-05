@@ -1,0 +1,7 @@
+FROM java:8-jre
+MAINTAINER ly liyang <lyg_hi@163.com>
+
+ADD ./jar/ly-auth.jar /app/
+ADD ./jar/pinpoint-agent /app/pinpoint-agent
+
+CMD ["java", "-Xmx500m", "-javaagent:/app/pinpoint-agent/pinpoint-bootstrap-1.7.3.jar", "-Dpinpoint.agentId=ly-auth", "-Dpinpoint.applicationName=AUTH", "-jar", "/app/ly-auth.jar","--spring.profiles.active=prd"]

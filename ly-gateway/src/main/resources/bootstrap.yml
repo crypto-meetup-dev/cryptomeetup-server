@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: ly-gateway
+  profiles:
+    active: dev
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        service-id: ly-config-server
+        enabled: true
+      profile: ${spring.profiles.active}
+      label: ${spring.profiles.active}
+
+logging:
+  level: error
+
+---
+spring:
+  profiles: dev
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://ly:liyang123@localhost:11000/eureka
+    registry-fetch-interval-seconds: 10
+#认证服务器地址
+security:
+  auth:
+    server: http://localhost:13000
+---
+spring:
+  profiles: prd
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+  client:
+    serviceUrl:
+      defaultZone: http://ly:liyang123@localhost:11000/eureka
+    registry-fetch-interval-seconds: 10
+#认证服务器地址
+security:
+  auth:
+    server: http://localhost:13000

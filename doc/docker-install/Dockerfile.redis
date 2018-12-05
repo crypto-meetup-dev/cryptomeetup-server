@@ -1,0 +1,10 @@
+FROM redis:4.0.7-alpine
+
+MAINTAINER "sxp" <904164773@qq.com>
+
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime \
+	&& mkdir -p /home/redis/conf
+
+COPY ./conf/redis.conf /home/redis/conf/redis.conf
+
+CMD [ "redis-server", "/home/redis/conf/redis.conf" ]

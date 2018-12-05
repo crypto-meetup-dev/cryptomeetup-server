@@ -1,0 +1,48 @@
+version: '2'
+services:
+  ly-eureka:
+    build:
+      context: ./
+      dockerfile: Dockerfile-eureka
+    restart: always
+    ports:
+      - 11000:11000
+
+  ly-config:
+    links:
+      - ly-eureka:eureka
+    build:
+      context: ./
+      dockerfile: Dockerfile-config
+    restart: always
+
+  ly-auth:
+    links:
+      - ly-eureka:eureka
+    build:
+      context: ./
+      dockerfile: Dockerfile-auth
+    restart: always
+    ports:
+      - 13000:13000
+
+  ly-gateway:
+    links:
+      - ly-eureka:eureka
+      - ly-auth:auth
+    build:
+      context: ./
+      dockerfile: Dockerfile-gateway
+    restart: always
+    ports:
+      - 14000:14000
+
+  ly-upms-service:
+    links:
+      - ly-eureka:eureka
+    build:
+      context: ./
+      dockerfile: Dockerfile-upms
+    restart: always
+    ports:
+      - 15001:15001

@@ -1,0 +1,72 @@
+version: '3.3'
+services:
+#    mysql:
+#        image: mysql
+#        restart: always
+#        container_name: ly-mysql
+#        environment:
+#            MYSQL_ROOT_PASSWORD: 123456
+#        ports:
+#            - "3306:3306"
+#        networks:
+#            ly:
+#                aliases:
+#                    - mysql
+##        volumes:
+##            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+    rabbitmq:
+        image: rabbitmq:3.7.3-management-alpine
+        container_name: ly-rabbitmq
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        environment:
+            RABBITMQ_DEFAULT_USER: ly
+            RABBITMQ_DEFAULT_PASS: Liyang123654
+        networks:
+            ly:
+                aliases:
+                    - rabbitmq
+        volumes:
+            - ./mysql:/var/lib/mysql
+#            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+    redis:
+        image: ly.redis:4.0.7-alpine
+        build:
+            context: .
+            dockerfile: Dockerfile.redis
+        container_name: ly-redis_single
+        ports:
+            - "6379:6379"
+        networks:
+            ly:
+                aliases:
+                    - redis
+        volumes:
+            - ./data:/redis-data:rw
+#    consul:
+#        image: consul
+#        container_name: consul_server
+#        network_mode: bridge
+#        ports:
+#        - 8300:8300
+#        - 8301:8301
+#        - 8301:8301/udp
+#        - 8302:8302
+#        - 8302:8302/udp
+#        - 8400:8400
+#        - 8500:8500
+#        - 53:53/udp
+#        command: consul agent -data-dir=/tmp/consul -server -bootstrap -domain=yang.li -client=0.0.0.0  -ui
+    zoo1:
+        image: zookeeper
+        restart: always
+        container_name: ly-zookeeper1
+        ports:
+        - "2181:2181"
+        environment:
+            ZOO_MY_ID: 1
+            ZOO_SERVERS: server.1=zoo1:2888:3888
+networks:
+    ly:
+        external: true

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bt.mapper.BtPointGisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bt.model.entity.BtPointGis">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <!--<result column="gis" property="gis" />-->
+        <result column="geohash" property="geohash"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, geohash, latitude, longitude, del_flag AS delFlag, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+    <!--插入数据-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        bt_point_gis (title,gis,latitude,longitude,create_time)
+        value
+        (#{title},ST_GeomFromText('point(${longitude} ${latitude})'),#{latitude},#{longitude},#{createTime})
+    </insert>
+
+    <!--列表-->
+    <select id="selectByLocation" resultType="com.ly.bt.model.entity.BtPointGis">
+        <![CDATA[
+            SELECT
+                id,
+                title,
+                FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
+                gis)) distance,
+                latitude,longitude,create_time as createTime
+            FROM
+                bt_point_gis where del_flag = 0 and ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
+                gis) < #{distance}
+        ]]>
+    </select>
+
+    <update id="updateLatLong">
+        update bt_point_gis set
+        gis = ST_GeomFromText('point(${longitude} ${latitude})') ,
+        latitude=#{latitude} , longitude = #{longitude} , update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+</mapper>

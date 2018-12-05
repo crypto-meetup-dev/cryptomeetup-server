@@ -1,0 +1,7 @@
+FROM java:8-jre
+MAINTAINER ly liyang <lyg_hi@163.com>
+
+ADD ./jar/ly-eureka.jar /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/ly-eureka.jar"]
+
+EXPOSE 1025

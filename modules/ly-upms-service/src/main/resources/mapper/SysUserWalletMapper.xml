@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.admin.mapper.SysUserWalletMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.admin.model.entity.SysUserWallet">
+        <id column="id" property="id" />
+        <result column="user_open_id" property="userOpenId" />
+        <result column="user_amount" property="userAmount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="pay_password" property="payPassword" />
+        <result column="is_open" property="isOpen" />
+        <result column="check_key" property="checkKey" />
+        <result column="version" property="version" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_open_id AS userOpenId, user_amount AS userAmount, create_time AS createTime, update_time AS updateTime, pay_password AS payPassword, is_open AS isOpen, check_key AS checkKey, version, del_flag as delFlag
+    </sql>
+
+    <!--通过用户唯一编号，查询用户钱包相关的信息  -->
+    <select id="selectByOpenId" resultType="com.ly.admin.model.entity.SysUserWallet" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user_wallet
+        where user_open_id = #{openId,jdbcType=VARCHAR}
+    </select>
+
+    <!--用户钱包数据更改 ，通过乐观锁(version机制)实现 -->
+    <update id="updateUserWallet" parameterType="com.ly.admin.model.entity.SysUserWallet">
+          <![CDATA[
+          	update sys_user_wallet set user_amount = #{userAmount,jdbcType=DECIMAL}, version = version + 1 ,update_time=#{updateTime} where id =#{id,jdbcType=INTEGER} and version = #{version,jdbcType=INTEGER}
+           ]]>
+  </update>
+
+</mapper>

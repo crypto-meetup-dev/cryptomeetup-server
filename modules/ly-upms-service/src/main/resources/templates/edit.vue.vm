@@ -1,0 +1,89 @@
+<template>
+  <div class="shop_$!{table.name}_edit">
+    <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+      #foreach($field in $table.fields)
+      <el-form-item label="$!{field.comment}" prop="$!{field.propertyName}">
+        <el-input v-model="form.$!{field.propertyName}" placeholder="$!{field.comment}"></el-input>
+      </el-form-item>
+      #end
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="handleCancel('form')">取 消</el-button>
+      <el-button v-if="!form.orderId" icon="el-icon-circle-check"  type="primary" @click="handleCreate('form')">确 定</el-button>
+      <el-button v-else type="primary" icon="el-icon-edit" @click="handleUpdate('form')">修 改</el-button>
+    </div>
+  </div>
+</template>
+
+<script>
+    import {
+            $!{table.name}_api
+    }
+        from
+                '@/api/shop'
+
+    export default {
+    name: 'shop_$!{table.name}_edit',
+    props: ['formData'],
+    data() {
+      return {
+        form: {},
+        rules: {
+        #foreach($field in $table.fields)
+          $!{field.propertyName}: [{
+            required: true,
+            message: '$!{field.comment}不能为空！',
+            trigger: 'blur'
+          }],
+        #end
+        }
+      }
+    },
+    watch: {
+      formData() {
+        this.form = Object.assign({}, this.formData)
+      }
+    },
+    mounted() {
+      this.form = Object.assign({}, this.formData)
+    },
+    methods: {
+      handleCreate(formName) {
+        const set = this.$refs
+        set[formName].validate(valid => {
+          if (valid) {
+            $!{table.name}_api.addObj(this.form).then((res) => {
+              this.$message.success('创建成功')
+              this.$emit('onSuccess', res.data.data)
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      handleCancel(formName) {
+        this.dialogFormVisible = false
+        const set = this.$refs
+        set[formName].resetFields()
+        this.$emit('onSuccess', '')
+      },
+      handleUpdate(formName) {
+        const set = this.$refs
+        set[formName].validate(valid => {
+          if (valid) {
+            $!{table.name}_api.updateObj(this.form).then((res) => {
+              this.$message.success('创建成功')
+              this.$emit('onSuccess', res.data.data)
+            })
+          } else {
+            return false
+          }
+        })
+      }
+    }
+  }
+</script>
+<style>
+    .shop_$!{table.name}_edit {
+    }
+</style>

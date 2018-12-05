@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ly.visual</groupId>
+    <artifactId>ly-visual</artifactId>
+    <version>${ly-server.version}</version>
+    <packaging>pom</packaging>
+
+    <name>ly-visual</name>
+    <description>图形化管理模块</description>
+
+    <parent>
+        <groupId>com.ly</groupId>
+        <artifactId>ly-base</artifactId>
+        <version>${ly-server.version}</version>
+    </parent>
+
+    <modules>
+        <module>ly-monitor</module>
+        <module>ly-zipkin-elk</module>
+        <module>ly-zipkin-db</module>
+        <!--<module>ly-cache-cloud</module>-->
+    </modules>
+</project>

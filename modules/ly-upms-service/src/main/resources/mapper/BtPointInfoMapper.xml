@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bt.mapper.BtPointInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bt.model.entity.BtPointInfo">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="gis_id" property="gisId" />
+        <result column="images" property="images" />
+        <result column="title" property="title" />
+        <result column="des" property="des" />
+        <result column="status" property="status" />
+        <result column="remarks" property="remarks" />
+        <result column="del_flag" property="delFlag" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        o.id as id, o.user_id AS userId, o.gis_id AS gisId, o.images as images, o.title as title,
+        o.des as des, o.status as status, o.remarks as remarks, o.del_flag AS delFlag,
+         o.create_time AS createTime, o.update_time AS updateTime
+    </sql>
+
+
+    <sql id="Gis_Column_List">
+        gis.id as 'gis.id', gis.title as 'gis.title',gis.latitude as 'gis.latitude', gis.longitude as 'gis.longitude', gis.del_flag AS 'gis.delFlag',
+        gis.create_time AS 'gis.createTime', gis.update_time AS 'gis.updateTime',
+    </sql>
+
+    <select id="selectUserList" resultType="com.ly.bt.model.entity.BtPointInfo">
+        select
+        u.nick_name as 'user.nickName',
+        <include refid="Base_Column_List"></include>
+        from bt_point_info o left  join sys_user u on  u.user_id = o.user_id
+        <where>
+            <if test="gisId != null and gisId != 0">
+                o.gis_id = #{gisId}
+            </if>
+            <if test="userId != null and userId != 0">
+                o.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectDetailById"  resultType="com.ly.bt.model.entity.BtPointInfo">
+
+        select
+            u.nick_name as 'user.nickName',
+            <include refid="Gis_Column_List"></include>
+            <include refid="Base_Column_List"></include>
+        from bt_point_info o
+        left join bt_point_gis gis on gis.id = o.gis_id
+        left join sys_user u on u.user_id = o.user_id
+        where o.id = #{id}
+    </select>
+
+</mapper>

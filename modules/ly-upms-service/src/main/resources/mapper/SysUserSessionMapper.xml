@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.admin.mapper.SysUserSessionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="UserSessionResultMap" type="com.ly.common.entity.SysUserSession">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="channel" property="channel"/>
+        <result column="session_key" property="sessionKey"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="unionid" property="unionid"/>
+        <result column="open_id" property="openId"/>
+        <result column="gender" property="gender"/>
+        <result column="app_id" property="appId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, channel, session_key AS sessionKey, nick_name AS nickName, avatar_url AS avatarUrl,
+        app_id AS appId, gender, open_id AS openId, unionid, update_time AS updateTime, create_time AS createTime
+    </sql>
+
+
+    <select id="selectChannelAndOpenId" resultType="com.ly.common.entity.SysUserSession">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user_session a
+        WHERE a.channel = #{channel} and a.open_id = #{openId}
+    </select>
+
+    <select id="selectChannelAndUserId" resultType="com.ly.common.entity.SysUserSession">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_user_session a
+        WHERE a.channel = #{channel} and a.user_id = #{userId}
+    </select>
+
+    <select id="selectCountByAppId" resultType="java.lang.Integer">
+        select count(*) from sys_user_session where app_id = #{appId}
+    </select>
+
+    <update id="updateAvatarAndNickName">
+        update sys_user_session set avatar_url = #{avatarUrl} ,nick_name = #{nickName} ,update_time = #{updateTime} where user_id = #{userId}
+    </update>
+
+</mapper>
