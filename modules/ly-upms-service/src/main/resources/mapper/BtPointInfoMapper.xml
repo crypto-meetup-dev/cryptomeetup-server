@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
         <result column="gis_id" property="gisId" />
+        <result column="dapp_id" property="dappId" />
         <result column="images" property="images" />
         <result column="title" property="title" />
         <result column="des" property="des" />
@@ -20,7 +21,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         o.id as id, o.user_id AS userId, o.gis_id AS gisId, o.images as images, o.title as title,
-        o.des as des, o.status as status, o.remarks as remarks, o.del_flag AS delFlag,
+        o.des as des, o.status as status, o.remarks as remarks, o.del_flag AS delFlag,dapp_id as dappId,
          o.create_time AS createTime, o.update_time AS updateTime
     </sql>
 

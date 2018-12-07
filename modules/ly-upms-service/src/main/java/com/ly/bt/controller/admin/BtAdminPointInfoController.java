@@ -205,4 +205,21 @@ public class BtAdminPointInfoController extends BaseController {
         return new R(true);
     }
 
+    /**
+     * 更新上链ID
+     * @param dappId
+     * @param id
+     * @return
+     */
+    @PostMapping("/update/dapp")
+    public R updateDappId(@RequestParam("dappId") String dappId, @RequestParam("id") Integer id) {
+
+        BtPointInfo info = infoService.selectById(id);
+        info.setDappId(dappId);
+        info.setUpdateTime(new Date());
+        infoService.updateById(info);
+
+        return new R(true);
+    }
+
 }

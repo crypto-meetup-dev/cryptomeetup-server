@@ -40,6 +40,15 @@ public class BtPointInfo extends Model<BtPointInfo> {
      */
     @TableField(C_GIS_ID)
     private Integer gisId;
+
+
+    /**
+     *
+     */
+    @TableField("dapp_id")
+    private String dappId;
+
+
     /**
      * 图片信息
      */
@@ -215,6 +224,14 @@ public class BtPointInfo extends Model<BtPointInfo> {
         this.updateTime = updateTime;
     }
 
+    public String getDappId() {
+        return dappId;
+    }
+
+    public void setDappId(String dappId) {
+        this.dappId = dappId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -225,6 +242,7 @@ public class BtPointInfo extends Model<BtPointInfo> {
         return "BtPointInfo{" +
         ", id=" + id +
         ", userId=" + userId +
+        ", dappId=" + dappId +
         ", gisId=" + gisId +
         ", images=" + images +
         ", title=" + title +
