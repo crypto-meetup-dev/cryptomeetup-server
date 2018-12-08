@@ -6,4 +6,4 @@ ADD ./jar/pinpoint-agent /app/pinpoint-agent
 
 CMD ["java", "-Xmx1000m", "-javaagent:/app/pinpoint-agent/pinpoint-bootstrap-1.7.3.jar", "-Dpinpoint.agentId=ly-upms-service", "-Dpinpoint.applicationName=ly-UPMS-SERVICE", "-jar", "/app/ly-upms-service.jar","--spring.profiles.active=prd"]
 
-EXPOSE 4000
+EXPOSE 15001

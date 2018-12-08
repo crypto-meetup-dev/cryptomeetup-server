@@ -6,4 +6,4 @@ ADD ./jar/pinpoint-agent /app/pinpoint-agent
 
 CMD ["java", "-Xmx500m", "-javaagent:/app/pinpoint-agent/pinpoint-bootstrap-1.7.3.jar", "-Dpinpoint.agentId=ly-gateway", "-Dpinpoint.applicationName=GATEWAY", "-jar", "/app/ly-gateway.jar","--spring.profiles.active=prd"]
 
-EXPOSE 9999
+EXPOSE 14000
