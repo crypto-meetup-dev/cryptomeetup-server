@@ -1,7 +1,9 @@
 package com.ly.bt.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.ly.bt.model.dto.BtPointInfoDTO;
+import com.ly.bt.model.entity.BtPointGis;
 import com.ly.bt.model.entity.BtPointInfo;
 
 /**
@@ -19,4 +21,6 @@ public interface BtPointInfoService extends IService<BtPointInfo> {
     BtPointInfo createPointService(BtPointInfo pointInfo, String latitude, String longitude);
 
     boolean updateInfoService(BtPointInfoDTO pointInfo);
+
+    Page<BtPointInfo> selectDistanceService(String latitude, String longitude, Integer distance, Integer page, Integer limit);
 }

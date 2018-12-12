@@ -86,6 +86,20 @@ public class BtPointInfo extends Model<BtPointInfo> {
     private Date updateTime;
 
 
+    /**
+     * 坐标
+     */
+    private String latitude;
+    /**
+     * 坐标
+     */
+    private String longitude;
+
+
+    @TableField(exist = false)
+    private String distance;
+
+
     @TableField(exist = false)
     private BtPointGis gis;
 
@@ -100,33 +114,31 @@ public class BtPointInfo extends Model<BtPointInfo> {
         this.user = user;
     }
 
-    //    /**
-//     * 坐标
-//     */
-//    @TableField(exist = false)
-//    private String latitude;
-//    /**
-//     * 坐标
-//     */
-//    @TableField(exist = false)
-//    private String longitude;
-//
-//
-//    public String getLatitude() {
-//        return latitude;
-//    }
-//
-//    public void setLatitude(String latitude) {
-//        this.latitude = latitude;
-//    }
-//
-//    public String getLongitude() {
-//        return longitude;
-//    }
-//
-//    public void setLongitude(String longitude) {
-//        this.longitude = longitude;
-//    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
 
     public void setGis(BtPointGis gis) {
         this.gis = gis;

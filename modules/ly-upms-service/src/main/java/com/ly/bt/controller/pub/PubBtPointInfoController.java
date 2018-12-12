@@ -76,4 +76,15 @@ public class PubBtPointInfoController extends BaseController {
         return new R(gisService.selectDistanceService(latitude, longitude, distance, page, limit));
     }
 
+
+    @GetMapping("/distance1")
+    public R<Page<BtPointInfo>> page1(String latitude, String longitude, Integer distance,
+                                    @RequestParam(required = false, defaultValue = "1") Integer page,
+                                    @RequestParam(required = false, defaultValue = "20") Integer limit) {
+        if (GeoHashUtil.isRoundOut(latitude, longitude)) {
+            throw new ParamsErrorException("坐标不正确！");
+        }
+        return new R(infoService.selectDistanceService(latitude, longitude, distance, page, limit));
+    }
+
 }

@@ -12,6 +12,9 @@
         <result column="title" property="title" />
         <result column="des" property="des" />
         <result column="status" property="status" />
+        <result column="geohash" property="geohash"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
         <result column="remarks" property="remarks" />
         <result column="del_flag" property="delFlag" />
         <result column="create_time" property="createTime" />
@@ -20,7 +23,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        o.id as id, o.user_id AS userId, o.gis_id AS gisId, o.images as images, o.title as title,
+        o.id as id, o.user_id AS userId, o.gis_id AS gisId, o.images as images, o.title as title, geohash, latitude, longitude,
         o.des as des, o.status as status, o.remarks as remarks, o.del_flag AS delFlag,dapp_id as dappId,
          o.create_time AS createTime, o.update_time AS updateTime
     </sql>
@@ -47,16 +50,65 @@
     </select>
 
 
+    <!--<select id="selectDetailById"  resultType="com.ly.bt.model.entity.BtPointInfo">-->
+
+        <!--select-->
+            <!--u.nick_name as 'user.nickName',-->
+            <!--<include refid="Gis_Column_List"></include>-->
+            <!--<include refid="Base_Column_List"></include>-->
+        <!--from bt_point_info o-->
+        <!--left join bt_point_gis gis on gis.id = o.gis_id-->
+        <!--left join sys_user u on u.user_id = o.user_id-->
+        <!--where o.id = #{id}-->
+    <!--</select>-->
+
+
+
     <select id="selectDetailById"  resultType="com.ly.bt.model.entity.BtPointInfo">
 
         select
-            u.nick_name as 'user.nickName',
-            <include refid="Gis_Column_List"></include>
-            <include refid="Base_Column_List"></include>
+        u.nick_name as 'user.nickName',
+        <include refid="Base_Column_List"></include>
         from bt_point_info o
-        left join bt_point_gis gis on gis.id = o.gis_id
         left join sys_user u on u.user_id = o.user_id
         where o.id = #{id}
     </select>
+
+    <!--插入数据-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        bt_point_info (title,des,gis,latitude,longitude,create_time,status,images,dapp_id,user_id,gis_id)
+        value
+        (#{title},#{des},ST_GeomFromText('point(${longitude} ${latitude})'),#{latitude},#{longitude},#{createTime},#{status},#{images},#{dappId},#{userId},#{gisId})
+    </insert>
+
+    <update id="updateLatLong">
+        update bt_point_info set
+        gis = ST_GeomFromText('point(${longitude} ${latitude})') ,
+        latitude=#{latitude} , longitude = #{longitude} , update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+
+    <select id="selectByLocation" resultType="com.ly.bt.model.entity.BtPointInfo">
+        <![CDATA[
+            SELECT
+                o.id as id,
+                o.title as title,
+                o.des as des,
+                u.nick_name as 'user.nickName',
+                FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
+                gis)) distance,
+                o.latitude as latitude,o.longitude as longitude,o.create_time as createTime
+            FROM
+                bt_point_info o
+            left join sys_user u on u.user_id = o.user_id
+            where o.del_flag = 0 and ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
+                o.gis) < #{distance}
+        ]]>
+    </select>
+
+
+
 
 </mapper>

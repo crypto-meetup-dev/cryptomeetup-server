@@ -3,6 +3,7 @@ package com.ly.bt.controller.admin;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.ly.admin.service.SysUserService;
+import com.ly.bt.model.dto.BtLatlngMatchDTO;
 import com.ly.bt.model.dto.BtPointInfoDTO;
 import com.ly.bt.model.entity.BtPointGis;
 import com.ly.bt.model.entity.BtPointInfo;
@@ -25,7 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -220,6 +223,21 @@ public class BtAdminPointInfoController extends BaseController {
         infoService.updateById(info);
 
         return new R(true);
+    }
+
+    /**
+     * find latlngs
+     * @param latlngs
+     * @return
+     */
+    @PostMapping("/match/latlng")
+    public R matchLatLng(@RequestBody BtLatlngMatchDTO latlngs){
+        List<BtPointInfo> list =new ArrayList<>();
+
+
+
+
+        return new R(list);
     }
 
 }
