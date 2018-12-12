@@ -98,7 +98,7 @@
                 o.des as des,
                 u.nick_name as 'user.nickName',
                 FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
-                gis)) distance,
+                o.gis)) distance,
                 o.latitude as latitude,o.longitude as longitude,o.create_time as createTime
             FROM
                 bt_point_info o
