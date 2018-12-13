@@ -95,6 +95,8 @@
             SELECT
                 o.id as id,
                 o.title as title,
+                o.dapp_id as dappId,
+                o.images as images,
                 o.des as des,
                 o.user_id as userId,
                 u.nick_name as 'user.nickName',
