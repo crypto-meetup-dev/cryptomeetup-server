@@ -96,6 +96,7 @@
                 o.id as id,
                 o.title as title,
                 o.des as des,
+                o.user_id as userId,
                 u.nick_name as 'user.nickName',
                 FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
                 o.gis)) distance,

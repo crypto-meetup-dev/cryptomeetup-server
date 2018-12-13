@@ -1,85 +1,67 @@
 package com.ly.bt.model.dto;
 
-import java.util.List;
-
 /**
  * query bt lat lng
  */
 public class BtLatlngMatchDTO {
 
 
-    private List<LatLng> latLngs;
+    String lat;
+    String lng;
 
+    String title;
 
-    public List<LatLng> getLatLngs() {
-        return latLngs;
+    String imageUrl;
+
+    String des;
+
+    boolean match;
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setLatLngs(List<LatLng> latLngs) {
-        this.latLngs = latLngs;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    /**
-     * 
-     */
-    public static class  LatLng{
-        String lat;
-        String lng;
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-        String title;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-        String imageUrl;
+    public String getDes() {
+        return des;
+    }
 
-        String des;
+    public void setDes(String des) {
+        this.des = des;
+    }
 
-        boolean match;
+    public void setMatch(boolean match) {
+        this.match = match;
+    }
 
-        public String getTitle() {
-            return title;
-        }
+    public boolean isMatch() {
+        return match;
+    }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
+    public String getLat() {
+        return lat;
+    }
 
-        public String getImageUrl() {
-            return imageUrl;
-        }
+    public String getLng() {
+        return lng;
+    }
 
-        public void setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
 
-        public String getDes() {
-            return des;
-        }
-
-        public void setDes(String des) {
-            this.des = des;
-        }
-
-        public void setMatch(boolean match) {
-            this.match = match;
-        }
-
-        public boolean isMatch() {
-            return match;
-        }
-
-        public String getLat() {
-            return lat;
-        }
-
-        public String getLng() {
-            return lng;
-        }
-
-        public void setLat(String lat) {
-            this.lat = lat;
-        }
-
-        public void setLng(String lng) {
-            this.lng = lng;
-        }
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 }

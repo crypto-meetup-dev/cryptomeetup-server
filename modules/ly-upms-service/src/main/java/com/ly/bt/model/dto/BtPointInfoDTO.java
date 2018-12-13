@@ -12,4 +12,6 @@ public class BtPointInfoDTO extends BtPointInfo {
     private String latitude;
     private String longitude;
 
+    private String imageUrl;
+
 }

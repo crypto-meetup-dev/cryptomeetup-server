@@ -231,10 +231,10 @@ public class BtAdminPointInfoController extends BaseController {
      * @return
      */
     @PostMapping("/match/latlng")
-    public R matchLatLng(@RequestBody BtLatlngMatchDTO latlngs){
+    public R matchLatLng(@RequestBody List<BtLatlngMatchDTO> latlngs){
 
 
-        for(BtLatlngMatchDTO.LatLng latLng : latlngs.getLatLngs()){
+        for(BtLatlngMatchDTO latLng : latlngs){
             EntityWrapper<BtPointInfo> wrapper = new EntityWrapper<>();
             wrapper.eq(BtPointInfo.LATITUDE,"");
             wrapper.eq(BtPointInfo.LONGITUDE,"");
@@ -247,11 +247,11 @@ public class BtAdminPointInfoController extends BaseController {
 
     /**
      * create list latlng
-     * @param latlngs
+     * @param pointInfo
      * @return
      */
-    @PostMapping("/match/latlng")
-    public R createMatchLatLng(){
+    @PostMapping("/create/list/point")
+    public R createMatchLatLng(BtPointInfoDTO pointInfo){
 
 
 
