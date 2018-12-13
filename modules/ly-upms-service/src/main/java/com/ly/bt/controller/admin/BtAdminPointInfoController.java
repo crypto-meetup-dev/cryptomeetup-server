@@ -1,5 +1,6 @@
 package com.ly.bt.controller.admin;
 
+import com.aliyun.oss.OSSClient;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.ly.admin.service.SysUserService;
@@ -9,6 +10,7 @@ import com.ly.bt.model.entity.BtPointGis;
 import com.ly.bt.model.entity.BtPointInfo;
 import com.ly.bt.service.BtPointGisService;
 import com.ly.bt.service.BtPointInfoService;
+import com.ly.common.bean.config.AliyunOssPropertiesConfig;
 import com.ly.common.constant.CommonConstant;
 import com.ly.common.util.GeoHashUtil;
 import com.ly.common.util.Query;
@@ -24,8 +26,13 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +60,11 @@ public class BtAdminPointInfoController extends BaseController {
 
     @Autowired
     private SysUserService userService;
+
+    @Autowired
+    RestTemplate restTemplate;
+
+
 
     /**
      * 通过ID查询
@@ -251,11 +263,54 @@ public class BtAdminPointInfoController extends BaseController {
      * @return
      */
     @PostMapping("/create/list/point")
-    public R createMatchLatLng(BtPointInfoDTO pointInfo){
+    public R createMatchLatLng(@RequestBody BtPointInfoDTO pointInfo,HttpServletRequest request){
+
+        if(StringUtils.isEmpty(pointInfo.getImageUrl())){
+            throw new ParamsErrorException("params error!");
+        }
+
+        byte[] bytes = restTemplate.getForObject(pointInfo.getImageUrl(),byte[].class);
+        InputStream sbs = new ByteArrayInputStream(bytes);
+
+        R<String> r = upload(sbs);
+
+        String images = String.format("[{\"url\":\"//cryptomeetup-img.oss-cn-shanghai.aliyuncs.com/%s?x-oss-process=style/cover-small\",\"path\":\"%s\"}]",r.getData(),r.getData());
+
+        BtPointInfo info = new BtPointInfo();
+        info.setLongitude(pointInfo.getLongitude());
+        info.setLatitude(pointInfo.getLatitude());
+        info.setImages(images);
+        info.setTitle(pointInfo.getTitle());
+        info.setDes(pointInfo.getDes());
+
+        if(pointInfo.getUserId()==null||pointInfo.getUserId()==0){
+            info.setUserId(UserUtils.getUserId(request));
+        }else {
+            info.setUserId(pointInfo.getUserId());
+        }
+
+        info.setImages(images);
 
 
-
+        infoService.createPointService(info,pointInfo.getLatitude(),pointInfo.getLongitude());
         return new R();
     }
+
+
+    @Autowired
+    private AliyunOssPropertiesConfig ossPropertiesConfig;
+
+
+    private R<String> upload(InputStream file) {
+        String url = ossPropertiesConfig.createImagePath();
+        // 创建OSSClient实例。
+        OSSClient ossClient = new OSSClient(ossPropertiesConfig.getEndpoint(), ossPropertiesConfig.getSecretId(), ossPropertiesConfig.getSecretKey());
+        // 上传网络流。
+        ossClient.putObject(ossPropertiesConfig.getBucketName(), url, file);
+        // 关闭OSSClient。
+        ossClient.shutdown();
+        return new R<>(url);
+    }
+
 
 }

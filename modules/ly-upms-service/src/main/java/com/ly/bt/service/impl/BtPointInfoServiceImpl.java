@@ -76,6 +76,10 @@ public class BtPointInfoServiceImpl extends ServiceImpl<BtPointInfoMapper, BtPoi
 
         pointInfo.setGisId(pointGis.getId());
         pointInfo.setCreateTime(new Date());
+
+        pointInfo.setLatitude(latitude);
+        pointInfo.setLongitude(longitude);
+
         baseMapper.insert(pointInfo);
         pointInfo.setGis(pointGis);
 
