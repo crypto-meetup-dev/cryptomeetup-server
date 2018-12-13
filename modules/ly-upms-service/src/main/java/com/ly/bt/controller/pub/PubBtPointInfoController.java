@@ -1,11 +1,14 @@
 package com.ly.bt.controller.pub;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.ly.bt.model.entity.BtPointGis;
 import com.ly.bt.model.entity.BtPointInfo;
 import com.ly.bt.service.BtPointGisService;
 import com.ly.bt.service.BtPointInfoService;
+import com.ly.common.constant.CommonConstant;
 import com.ly.common.util.GeoHashUtil;
+import com.ly.common.util.Query;
 import com.ly.common.util.R;
 import com.ly.common.util.exception.ParamsErrorException;
 import com.ly.common.web.BaseController;
@@ -15,6 +18,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -67,7 +72,7 @@ public class PubBtPointInfoController extends BaseController {
             @ApiImplicitParam(name = "distance", value = "半径距离 单位(m)", required = true, dataType = "int", paramType = "query")
     })
     @GetMapping("/distance")
-    public R<Page<BtPointGis>> page(String latitude, String longitude, Integer distance,
+    public R<Page<BtPointGis>> distance(String latitude, String longitude, Integer distance,
                                     @RequestParam(required = false, defaultValue = "1") Integer page,
                                     @RequestParam(required = false, defaultValue = "20") Integer limit) {
         if (GeoHashUtil.isRoundOut(latitude, longitude)) {
@@ -77,14 +82,35 @@ public class PubBtPointInfoController extends BaseController {
     }
 
 
+    /**
+     * page
+     * @param latitude
+     * @param longitude
+     * @param distance
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/distance1")
-    public R<Page<BtPointInfo>> page1(String latitude, String longitude, Integer distance,
+    public R<Page<BtPointInfo>> distance1(String latitude, String longitude, Integer distance,
                                     @RequestParam(required = false, defaultValue = "1") Integer page,
                                     @RequestParam(required = false, defaultValue = "20") Integer limit) {
         if (GeoHashUtil.isRoundOut(latitude, longitude)) {
             throw new ParamsErrorException("坐标不正确！");
         }
         return new R(infoService.selectDistanceService(latitude, longitude, distance, page, limit));
+    }
+
+    /**
+     *
+     * @param params
+     * @return
+     */
+    @GetMapping("/page")
+    public R<Page<BtPointInfo>> page(@RequestParam Map<String, Object> params) {
+
+        params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
+        return new R(infoService.selectPage(new Query<>(params), new EntityWrapper<>()));
     }
 
 }
