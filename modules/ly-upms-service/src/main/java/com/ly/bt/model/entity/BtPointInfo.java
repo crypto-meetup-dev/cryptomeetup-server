@@ -25,6 +25,10 @@ public class BtPointInfo extends Model<BtPointInfo> {
 
     public static final String C_GIS_ID = "gis_id";
 
+
+    public static final String LATITUDE ="latitude";
+    public static final String LONGITUDE ="longitude";
+
     /**
      * 主键ID
      */

@@ -226,18 +226,36 @@ public class BtAdminPointInfoController extends BaseController {
     }
 
     /**
-     * find latlngs
+     * match latlng in system database
      * @param latlngs
      * @return
      */
     @PostMapping("/match/latlng")
     public R matchLatLng(@RequestBody BtLatlngMatchDTO latlngs){
-        List<BtPointInfo> list =new ArrayList<>();
+
+
+        for(BtLatlngMatchDTO.LatLng latLng : latlngs.getLatLngs()){
+            EntityWrapper<BtPointInfo> wrapper = new EntityWrapper<>();
+            wrapper.eq(BtPointInfo.LATITUDE,"");
+            wrapper.eq(BtPointInfo.LONGITUDE,"");
+            latLng.setMatch(infoService.selectList(wrapper).size()>0);
+        }
+
+
+        return new R(latlngs);
+    }
+
+    /**
+     * create list latlng
+     * @param latlngs
+     * @return
+     */
+    @PostMapping("/match/latlng")
+    public R createMatchLatLng(){
 
 
 
-
-        return new R(list);
+        return new R();
     }
 
 }
