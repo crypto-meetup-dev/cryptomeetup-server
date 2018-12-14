@@ -20,8 +20,8 @@ public class FileTest {
 	@Test
 	public void testAliyunUpload() {
 
-        String key = "LTAIFmokxi4gaorI";
-        String secret = "aWjrphAVvzUvnQxCVq34yJwkmRzCZ1";
+        String key = "";
+        String secret = "";
 
 
         //ossPropertiesConfig.getSecretId(), ossPropertiesConfig.getSecretKey()
