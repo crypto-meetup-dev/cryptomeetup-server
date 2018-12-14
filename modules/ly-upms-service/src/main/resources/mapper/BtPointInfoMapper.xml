@@ -99,6 +99,7 @@
                 o.images as images,
                 o.des as des,
                 o.user_id as userId,
+                o.status as status,
                 u.nick_name as 'user.nickName',
                 FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
                 o.gis)) distance,
