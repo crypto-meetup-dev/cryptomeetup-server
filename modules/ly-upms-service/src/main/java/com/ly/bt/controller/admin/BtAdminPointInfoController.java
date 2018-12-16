@@ -105,6 +105,7 @@ public class BtAdminPointInfoController extends BaseController {
         if (StringUtils.isNotEmpty(status)) {
             params.put("status", status);
         }
+
         params.put("page", page);
         params.put("limit", limit);
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);

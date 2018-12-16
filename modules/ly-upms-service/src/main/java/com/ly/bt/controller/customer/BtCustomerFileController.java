@@ -47,6 +47,11 @@ public class BtCustomerFileController extends BaseController {
     }
 
     private R<String> upload(MultipartFile file) {
+//        try {
+//            Thread.sleep(30000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         String url = ossPropertiesConfig.createImagePath();
         // 创建OSSClient实例。
         OSSClient ossClient = new OSSClient(ossPropertiesConfig.getEndpoint(), ossPropertiesConfig.getSecretId(), ossPropertiesConfig.getSecretKey());

@@ -1,9 +1,14 @@
 package com.ly.bt.controller.admin;
 
 import com.ly.bt.controller.customer.BtCustomerFileController;
+import com.ly.common.bean.config.GitPortalPullPropertiesConfig;
+import com.ly.common.util.R;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 客户文件管理
@@ -15,5 +20,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/bt/admin/file")
 public class BtAdminFileController extends BtCustomerFileController {
+
+
+    @Autowired
+    GitPortalPullPropertiesConfig portalPullPropertiesConfig;
+
+    /**
+     * sync git portal
+     * @return
+     */
+    @GetMapping(value = "/git/portal/sync")
+    public R<String> gitPortalSync() {
+
+//        portalPullPropertiesConfig.get
+
+        return new R<String>();
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping(value = "/git/portal/list")
+    public R<String> gitPortalList() {
+
+
+        return new R<String>();
+    }
+
+
 
 }
