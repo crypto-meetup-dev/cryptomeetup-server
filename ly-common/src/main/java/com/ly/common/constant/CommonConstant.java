@@ -80,4 +80,13 @@ public interface CommonConstant {
 
 
     String UPDATE_TIME="update_time";
+
+    /**
+     * sync portal , redis key
+     */
+    String PORTAL_SYNC ="portal_sync";
+    int EXPIRE_PORTAL_SYNC =;
+
+
+
 }

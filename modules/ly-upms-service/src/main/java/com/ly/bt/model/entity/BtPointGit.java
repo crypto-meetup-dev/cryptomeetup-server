@@ -26,8 +26,11 @@ public class BtPointGit extends Model<BtPointGit> {
     public static final String C_GIS_ID = "gis_id";
 
 
-    public static final String LATITUDE ="latitude";
-    public static final String LONGITUDE ="longitude";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
+
+    public static final String STATUS_NONE = "1";// data no join server
+    public static final String STATUS_JOIN = "2";// data join server
 
     /**
      * 主键ID
@@ -268,19 +271,19 @@ public class BtPointGit extends Model<BtPointGit> {
     @Override
     public String toString() {
         return "BtPointInfo{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", dappId=" + dappId +
-        ", account=" + account +
-        ", path=" + path +
-        ", images=" + images +
-        ", title=" + title +
-        ", des=" + des +
-        ", status=" + status +
-        ", remarks=" + remarks +
-        ", delFlag=" + delFlag +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", userId=" + userId +
+                ", dappId=" + dappId +
+                ", account=" + account +
+                ", path=" + path +
+                ", images=" + images +
+                ", title=" + title +
+                ", des=" + des +
+                ", status=" + status +
+                ", remarks=" + remarks +
+                ", delFlag=" + delFlag +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

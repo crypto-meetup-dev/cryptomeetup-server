@@ -1,10 +1,8 @@
 package com.ly.bt.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.ly.bt.model.dto.BtPointInfoDTO;
+import com.ly.bt.model.bean.PortalBean;
 import com.ly.bt.model.entity.BtPointGit;
-import com.ly.bt.model.entity.BtPointInfo;
 
 /**
  * <p>
@@ -18,7 +16,7 @@ public interface BtPointGitService extends IService<BtPointGit> {
 
     BtPointGit selectDetailByIdService(Integer id);
 
-    BtPointGit createPointService(BtPointGit pointInfo, String latitude, String longitude);
+    BtPointGit createService(BtPointGit pointInfo, String latitude, String longitude);
 
-    Page<BtPointGit> selectDistanceService(String latitude, String longitude, Integer distance, Integer page, Integer limit);
+    BtPointGit findBtInfoByPortalService(PortalBean portalBean);
 }

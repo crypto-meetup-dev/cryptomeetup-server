@@ -1,23 +1,20 @@
 package com.ly.bt.service.impl;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ly.admin.mapper.SysUserMapper;
 import com.ly.bt.mapper.BtPointGisMapper;
 import com.ly.bt.mapper.BtPointGitMapper;
-import com.ly.bt.model.entity.BtPointGis;
+import com.ly.bt.model.bean.PortalBean;
 import com.ly.bt.model.entity.BtPointGit;
 import com.ly.bt.service.BtPointGitService;
-import com.ly.common.constant.CommonConstant;
-import com.ly.common.util.Query;
-import org.apache.commons.collections.map.HashedMap;
+import com.ly.common.bean.config.AliyunOssPropertiesConfig;
+import com.ly.common.bean.config.GitPortalPullPropertiesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -30,11 +27,22 @@ import java.util.Map;
 @Service
 public class BtPointGitServiceImpl extends ServiceImpl<BtPointGitMapper, BtPointGit> implements BtPointGitService {
 
+
+    @Autowired
+    GitPortalPullPropertiesConfig portalPullPropertiesConfig;
+
+    @Autowired
+    AliyunOssPropertiesConfig ossPropertiesConfig;
+
     @Autowired
     BtPointGisMapper gisMapper;
 
     @Autowired
     SysUserMapper userMapper;
+
+
+    @Autowired
+    RestTemplate restTemplate;
 
     /**
      * 查询打卡点详细信息
@@ -45,11 +53,9 @@ public class BtPointGitServiceImpl extends ServiceImpl<BtPointGitMapper, BtPoint
     @Override
     public BtPointGit selectDetailByIdService(Integer id) {
         BtPointGit BtPointGit = baseMapper.selectDetailById(id);
-//        if(BtPointGit!=null){
-//            BtPointGit.setGis(gisMapper.selectById(BtPointGit.getGisId()));
-//        }
         return BtPointGit;
     }
+
 
     /**
      * 创建打卡点
@@ -61,7 +67,7 @@ public class BtPointGitServiceImpl extends ServiceImpl<BtPointGitMapper, BtPoint
      */
     @Override
     @Transactional(readOnly = false)
-    public BtPointGit createPointService(BtPointGit pointGit, String latitude, String longitude) {
+    public BtPointGit createService(BtPointGit pointGit, String latitude, String longitude) {
 
         pointGit.setCreateTime(new Date());
 
@@ -74,30 +80,15 @@ public class BtPointGitServiceImpl extends ServiceImpl<BtPointGitMapper, BtPoint
 
 
     /**
-     * query point by lat lng
+     * find portal info
      *
-     * @param latitude
-     * @param longitude
-     * @param distance
-     * @param page
-     * @param limit
+     * @param portalBean
      * @return
      */
     @Override
-    public Page<BtPointGit> selectDistanceService(String latitude, String longitude, Integer distance, Integer page, Integer limit) {
-        Map<String, String> params = new HashedMap();
-        params.put("latitude", latitude);
-        params.put("longitude", longitude);
-        params.put("distance", distance + "");
-        params.put("page", page + "");
-        params.put("limit", limit + "");
-        params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-
-        Query query = new Query(params);
-
-        List<BtPointGit> gisList = this.baseMapper.selectByLocation(query, params);
-        query.setRecords(gisList);
-
-        return query;
+    public BtPointGit findBtInfoByPortalService(PortalBean portalBean) {
+        return null;
     }
+
+
 }

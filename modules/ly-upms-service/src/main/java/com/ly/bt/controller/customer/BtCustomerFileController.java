@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 客户文件管理
@@ -36,31 +37,26 @@ public class BtCustomerFileController extends BaseController {
      */
     @ApiOperation(value = "上传图片", notes = "客户端上传图片到阿里云OSS")
     @PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
-    public R<String> uploadPost(@ApiParam(value = "上传的文件", required = true) @RequestParam(value = "file", required = false) MultipartFile file) {
+    public R<String> uploadPost(@ApiParam(value = "上传的文件", required = true) @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
         return upload(file);
     }
 
 
     @PutMapping(value = "/upload")
-    public R<String> uploadPut(@RequestParam(value = "file", required = false) MultipartFile file) {
+    public R<String> uploadPut(@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
         return upload(file);
     }
 
-    private R<String> upload(MultipartFile file) {
-//        try {
-//            Thread.sleep(30000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+    private R<String> upload(MultipartFile file) throws IOException {
+        return upload(file.getInputStream());
+    }
+
+    public R<String> upload(InputStream inputStream) {
         String url = ossPropertiesConfig.createImagePath();
         // 创建OSSClient实例。
         OSSClient ossClient = new OSSClient(ossPropertiesConfig.getEndpoint(), ossPropertiesConfig.getSecretId(), ossPropertiesConfig.getSecretKey());
         // 上传网络流。
-        try {
-            ossClient.putObject(ossPropertiesConfig.getBucketName(), url, file.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ossClient.putObject(ossPropertiesConfig.getBucketName(), url, inputStream);
         // 关闭OSSClient。
         ossClient.shutdown();
         return new R<>(url);
