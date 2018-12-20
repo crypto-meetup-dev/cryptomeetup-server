@@ -291,7 +291,7 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
 
                             //get point name
                             String parentName = img.getParentFile().getName();
-                            String pointTitle = parentName.substring(parentName.indexOf(".") + 1, parentName.length() - 1);
+                            String pointTitle = parentName.substring(parentName.indexOf(".") + 1, parentName.length());
 
                             btPointGit.setTitle(pointTitle);
                             btPointGit.setDes(pointTitle);
