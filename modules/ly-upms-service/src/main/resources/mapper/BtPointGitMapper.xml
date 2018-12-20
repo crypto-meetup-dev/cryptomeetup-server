@@ -1,83 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ly.bt.mapper.BtPointInfoMapper">
+<mapper namespace="com.ly.bt.mapper.BtPointGitMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ly.bt.model.entity.BtPointGit">
-        <id column="id" property="id" />
-        <result column="account" property="account" />
-        <result column="images" property="images" />
-        <result column="title" property="title" />
-        <result column="des" property="des" />
-        <result column="path" property="path" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="title" property="title"/>
+        <result column="des" property="des"/>
+        <result column="path" property="path"/>
+        <result column="status" property="status"/>
         <result column="geohash" property="geohash"/>
         <result column="latitude" property="latitude"/>
         <result column="longitude" property="longitude"/>
-        <result column="remarks" property="remarks" />
-        <result column="del_flag" property="delFlag" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+
+        <result column="st" property="st"/>
+        <result column="k" property="k"/>
+        <result column="ref_free" property="refFree"/>
+        <result column="creator_free" property="creatorFree"/>
+        <result column="price" property="price"/>
+        <result column="parent" property="parent"/>
+
+        <result column="remarks" property="remarks"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        o.id as id, o.account AS account, o.path as path, o.images as images, o.title as title, geohash, latitude, longitude,
-        o.des as des, o.status as status, o.remarks as remarks, o.del_flag AS delFlag,dapp_id as dappId,
-         o.create_time AS createTime, o.update_time AS updateTime
+        id as id, account AS account, path as path, title as title, geohash,
+        latitude, longitude, st,k,refFee,creator_fee as creatorFee,price,parent,
+        des as des, status as status, remarks as remarks, del_flag AS delFlag,dapp_id as dappId,
+         create_time AS createTime, update_time AS updateTime
     </sql>
 
 
-    <select id="selectDetailById"  resultType="com.ly.bt.model.entity.BtPointInfo">
-
+    <select id="selectDetailById" resultType="com.ly.bt.model.entity.BtPointGit">
         select
-        u.nick_name as 'user.nickName',
         <include refid="Base_Column_List"></include>
-        from bt_point_info o
-        left join sys_user u on u.user_id = o.user_id
+        from bt_point_git o
         where o.id = #{id}
     </select>
 
     <!--插入数据-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into
-        bt_point_info (title,des,gis,latitude,longitude,create_time,status,images,dapp_id,user_id,gis_id)
+        bt_point_git (title,des,gis,latitude,longitude,create_time,status,images,dapp_id,account,st, k, ref_fee, creator_fee, price, parent,path)
         value
-        (#{title},#{des},ST_GeomFromText('point(${longitude} ${latitude})'),#{latitude},#{longitude},#{createTime},#{status},#{images},#{dappId},#{userId},#{gisId})
+        (#{title},#{des},ST_GeomFromText('point(${longitude} ${latitude})'),#{latitude},#{longitude},#{createTime},#{status},#{images},#{dappId},#{account},#{st},#{k},#{refFee}, #{creatorFee}, #{price}, #{parent},#{path})
     </insert>
 
-    <update id="updateLatLong">
-        update bt_point_info set
-        gis = ST_GeomFromText('point(${longitude} ${latitude})') ,
-        latitude=#{latitude} , longitude = #{longitude} , update_time = #{updateTime}
-        where id = #{id}
+    <update id="updateStatus">
+        update  bt_point_git set status = #{status} , update_time = #{updateTime} where id = ${id}
     </update>
 
-
-    <select id="selectByLocation" resultType="com.ly.bt.model.entity.BtPointInfo">
-        <![CDATA[
-            SELECT
-                o.id as id,
-                o.title as title,
-                o.dapp_id as dappId,
-                o.path as path,
-                o.images as images,
-                o.des as des,
-                o.account as account,
-                o.status as status,
-                u.nick_name as 'user.nickName',
-                FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
-                o.gis)) distance,
-                o.latitude as latitude,o.longitude as longitude,o.create_time as createTime
-            FROM
-                bt_point_info o
-            left join sys_user u on u.user_id = o.user_id
-            where o.del_flag = 0 and ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),
-                o.gis) < #{distance}
-        ]]>
-    </select>
+    <!--<update id="updateLatLong">-->
+    <!--update bt_point_git set-->
+    <!--gis = ST_GeomFromText('point(${longitude} ${latitude})') ,-->
+    <!--latitude=#{latitude} , longitude = #{longitude} , update_time = #{updateTime}-->
+    <!--where id = #{id}-->
+    <!--</update>-->
 
 
+    <!--<select id="selectByLocation" resultType="com.ly.bt.model.entity.BtPointGit">-->
+    <!--<![CDATA[-->
+    <!--SELECT-->
+    <!--o.id as id,-->
+    <!--o.title as title,-->
+    <!--o.dapp_id as dappId,-->
+    <!--o.path as path,-->
+    <!--o.des as des,-->
+    <!--o.account as account,-->
+    <!--o.status as status,-->
+
+    <!--o.st as st,-->
+    <!--o.k as k,-->
+    <!--o.ref_fee as refFee,-->
+    <!--o.creator_fee as creatorFee,-->
+    <!--o.price as price,-->
+    <!--o.parent as parent,-->
+
+    <!--FLOOR(ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),-->
+    <!--o.gis)) distance,-->
+    <!--o.latitude as latitude,o.longitude as longitude,o.create_time as createTime-->
+    <!--FROM-->
+    <!--bt_point_git o-->
+    <!--where o.del_flag = 0 and ST_DISTANCE_SPHERE(st_geomfromtext('point(${longitude} ${latitude})'),-->
+    <!--o.gis) < #{distance}-->
+    <!--]]>-->
+    <!--</select>-->
 
 
 </mapper>

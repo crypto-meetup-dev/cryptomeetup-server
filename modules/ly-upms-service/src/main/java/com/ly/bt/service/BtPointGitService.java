@@ -14,9 +14,9 @@ import com.ly.bt.model.entity.BtPointGit;
  */
 public interface BtPointGitService extends IService<BtPointGit> {
 
-    BtPointGit selectDetailByIdService(Integer id);
-
-    BtPointGit createService(BtPointGit pointInfo, String latitude, String longitude);
 
     BtPointGit findBtInfoByPortalService(PortalBean portalBean);
+
+    void updateStatusService(BtPointGit pointGit);
+
 }

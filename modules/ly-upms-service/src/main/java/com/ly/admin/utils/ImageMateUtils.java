@@ -1,7 +1,6 @@
 package com.ly.admin.utils;
 
 import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
@@ -38,7 +37,7 @@ public class ImageMateUtils {
                 System.out.println(tagName + "   " + desc);//照片信息
                 if (tagName.equals("GPS Latitude")) {
                     lat = pointToLatlong(desc);
-                    mateImage.setLongitude(lat);
+                    mateImage.setLatitude(lat);
                 } else if (tagName.equals("GPS Longitude")) {
                     log = pointToLatlong(desc);
                     mateImage.setLongitude(log);

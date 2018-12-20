@@ -17,12 +17,6 @@ import java.util.Map;
  * @since 2018-11-16
  */
 public interface BtPointGitMapper extends BaseMapper<BtPointGit> {
-    List<BtPointGit> selectUserList(BtPointGit info);
 
-    BtPointGit selectDetailById(Integer id);
-
-    int updateLatLong(BtPointGit info);
-
-    List<BtPointGit> selectByLocation(Query objectQuery, Map params);
-
+    void updateStatus(BtPointGit pointGit);
 }

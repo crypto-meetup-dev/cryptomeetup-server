@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-import com.ly.admin.model.entity.SysUser;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +17,7 @@ import java.util.Date;
  * @author liyang
  * @since 2018-11-16
  */
-@TableName("bt_point_info")
+@TableName("bt_point_git")
 public class BtPointGit extends Model<BtPointGit> {
 
     private static final long serialVersionUID = 1L;
@@ -37,22 +36,20 @@ public class BtPointGit extends Model<BtPointGit> {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    /**
-     * 拥有者ID
-     */
-    @TableField("user_id")
-    private Integer userId;
 
     /**
-     *
+     * customer account
      */
     private String account;
 
+    /**
+     * image path
+     */
     private String path;
 
 
     /**
-     *
+     * customer dapp id
      */
     @TableField("dapp_id")
     private String dappId;
@@ -105,31 +102,65 @@ public class BtPointGit extends Model<BtPointGit> {
     private String longitude;
 
 
-    @TableField(exist = false)
-    private String distance;
+    private String st;
+
+    private String k;
+
+    private String refFee;
+
+    private String creatorFee;
+
+    private String price;
+
+    private String parent;
 
 
-    @TableField(exist = false)
-    private BtPointGis gis;
-
-    @TableField(exist = false)
-    private SysUser user;
-
-    public SysUser getUser() {
-        return user;
+    public String getSt() {
+        return st;
     }
 
-    public void setUser(SysUser user) {
-        this.user = user;
+    public void setSt(String st) {
+        this.st = st;
     }
 
-
-    public String getDistance() {
-        return distance;
+    public String getK() {
+        return k;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setK(String k) {
+        this.k = k;
+    }
+
+    public String getRefFee() {
+        return refFee;
+    }
+
+    public void setRefFee(String refFee) {
+        this.refFee = refFee;
+    }
+
+    public String getCreatorFee() {
+        return creatorFee;
+    }
+
+    public void setCreatorFee(String creatorFee) {
+        this.creatorFee = creatorFee;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 
     public String getLatitude() {
@@ -148,29 +179,12 @@ public class BtPointGit extends Model<BtPointGit> {
         this.longitude = longitude;
     }
 
-
-    public void setGis(BtPointGis gis) {
-        this.gis = gis;
-    }
-
-    public BtPointGis getGis() {
-        return gis;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
 
@@ -270,13 +284,18 @@ public class BtPointGit extends Model<BtPointGit> {
 
     @Override
     public String toString() {
-        return "BtPointInfo{" +
+        return "BtPointGit{" +
                 ", id=" + id +
-                ", userId=" + userId +
                 ", dappId=" + dappId +
                 ", account=" + account +
                 ", path=" + path +
-                ", images=" + images +
+                ", st=" + st +
+                ", k=" + k +
+                ", price=" + price +
+                ", refFee=" + refFee +
+                ", creatorFee=" + creatorFee +
+                ", price=" + price +
+                ", parent=" + parent +
                 ", title=" + title +
                 ", des=" + des +
                 ", status=" + status +

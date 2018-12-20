@@ -1,14 +1,14 @@
 package com.ly.bt.model.entity;
 
-import com.baomidou.mybatisplus.enums.IdType;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.ly.admin.model.entity.SysUser;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -26,8 +26,14 @@ public class BtPointInfo extends Model<BtPointInfo> {
     public static final String C_GIS_ID = "gis_id";
 
 
-    public static final String LATITUDE ="latitude";
-    public static final String LONGITUDE ="longitude";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
+
+
+    public static final String STATUS_IN = "1";
+    public static final String STATUS_SUCCESS = "2";
+    public static final String STATUS_NONE = "3";
+
 
     /**
      * 主键ID
@@ -256,18 +262,18 @@ public class BtPointInfo extends Model<BtPointInfo> {
     @Override
     public String toString() {
         return "BtPointInfo{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", dappId=" + dappId +
-        ", gisId=" + gisId +
-        ", images=" + images +
-        ", title=" + title +
-        ", des=" + des +
-        ", status=" + status +
-        ", remarks=" + remarks +
-        ", delFlag=" + delFlag +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", userId=" + userId +
+                ", dappId=" + dappId +
+                ", gisId=" + gisId +
+                ", images=" + images +
+                ", title=" + title +
+                ", des=" + des +
+                ", status=" + status +
+                ", remarks=" + remarks +
+                ", delFlag=" + delFlag +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

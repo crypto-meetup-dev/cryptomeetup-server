@@ -85,7 +85,10 @@ public interface CommonConstant {
      * sync portal , redis key
      */
     String PORTAL_SYNC ="portal_sync";
-    int EXPIRE_PORTAL_SYNC =;
+    int EXPIRE_PORTAL_SYNC = 30;
+
+    String PORTAL_GIT_PULL ="portal_git_pull";
+    int EXPIRE_PORTAL_GIT_PULL = 30;
 
 
 

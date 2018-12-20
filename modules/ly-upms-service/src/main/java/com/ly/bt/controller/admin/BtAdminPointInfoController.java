@@ -111,6 +111,7 @@ public class BtAdminPointInfoController extends BaseController {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
         Query query = new Query(params);
         EntityWrapper entityWrapper = new EntityWrapper<>();
+        entityWrapper.orderBy("id",false);
         Page<BtPointInfo> page1 = infoService.selectPage(query, entityWrapper);
         if (page1.getRecords() != null && page1.getRecords().size() > 0) {
             for (BtPointInfo info : page1.getRecords()) {
