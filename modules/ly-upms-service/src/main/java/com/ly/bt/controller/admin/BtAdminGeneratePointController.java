@@ -80,6 +80,7 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
             redisTemplate.opsForValue().set(CommonConstant.PORTAL_GIT_PULL, "1", CommonConstant.EXPIRE_PORTAL_GIT_PULL, TimeUnit.MINUTES);
             //run git pull
             new Thread(new GitPortalPull()).start();
+            logger.info("------>坐标仓库开始更新");
             return new R(R.SUCCESS, "坐标仓库开始更新...");
 
         }else {
@@ -150,6 +151,7 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
 
             redisTemplate.opsForValue().set(CommonConstant.PORTAL_SYNC, "1", CommonConstant.EXPIRE_PORTAL_SYNC, TimeUnit.MINUTES);
 
+            logger.info("------>坐标仓库开始分析..."+file.getAbsolutePath());
             //run sync
             new Thread(new SyncGitThread(file)).start();
             return new R(R.SUCCESS, "坐标仓库开始分析...");
@@ -184,6 +186,8 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
             FileRepository repository = null;
             try {
                 repository = new FileRepository(new File(portalPullPropertiesConfig.getLocalPath()+"/.git"));
+
+                logger.info("------>坐标仓库开始更新...git pull:"+portalPullPropertiesConfig.getLocalPath());
                 Git git = new Git(repository);
                 git.pull().setRemote("origin").call();
             } catch (IOException e) {
@@ -244,6 +248,8 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
             File meta = null, img = null;
 
             for (File file : files) {
+
+                logger.info("------>开始分析"+file.getAbsolutePath());
                 if (file.isDirectory()) {
                     readPortal(file.listFiles());
                 } else {
@@ -319,7 +325,8 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
 
                             boolean r = gitService.insert(btPointGit);
 
-                            logger.info(btPointGit.toString());
+
+                            logger.info("---->分析除来一个坐标信息:"+btPointGit.toString());
 
 
                         }
