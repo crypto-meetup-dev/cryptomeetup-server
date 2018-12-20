@@ -152,10 +152,12 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
 
             //run sync
             new Thread(new SyncGitThread(file)).start();
+            return new R(R.SUCCESS, "坐标仓库开始分析...");
+
+        }else {
+            return new R(R.SUCCESS, "坐标仓库正在分析中…");
 
         }
-
-        return new R(R.SUCCESS, "坐标同步中.");
     }
 
 
