@@ -21,6 +21,7 @@ import com.ly.common.vo.UserVO;
 import io.swagger.annotations.Api;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Delete;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.*;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -160,6 +161,26 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
             return new R(R.SUCCESS, "坐标仓库正在分析中…");
 
         }
+    }
+
+
+    /**
+     * del portal git
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "/portal/del")
+    public R portalDel(@RequestParam("id") Integer id){
+
+        BtPointGit pointGit = gitService.selectById(id);
+
+        if(pointGit==null){
+            throw new ParamsErrorException();
+        }
+
+        gitService.deleteById(id);
+
+        return new R(true);
     }
 
 
