@@ -251,12 +251,12 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
         public void run() {
             try {
                 readPortal(file.listFiles());
-
-                //remove
-                redisTemplate.delete(CommonConstant.PORTAL_SYNC);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            //remove
+            redisTemplate.delete(CommonConstant.PORTAL_SYNC);
         }
 
         /**
@@ -272,7 +272,11 @@ public class BtAdminGeneratePointController extends BtCustomerFileController {
 
                 logger.info("------>开始分析"+file.getAbsolutePath());
                 if (file.isDirectory()) {
-                    readPortal(file.listFiles());
+                    try {
+                        readPortal(file.listFiles());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 } else {
                     if (file.getName().toLowerCase().endsWith("json")) {
                         meta = file;
